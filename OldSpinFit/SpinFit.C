@@ -144,7 +144,7 @@ public:
   int nFitTried;
   map<string, RooDataSet *> datasets;
   string fileWithCorrelation, filenoCorrelation, fileWithCorrelation_gen,
-  	fileNoCorrelation_gen, fileData, fileBackground;
+  	fileNoCorrelation_gen, fileData, fileBackground,histnameNoCorrelation,histnameWithCorrelation;
 TH1F* h2; 
 TH1F* h1;
 
@@ -155,17 +155,24 @@ SpinFit::SpinFit()
 {
   
 //  fileWithCorrelation = "ttbar_mcatnlo_SC_ref.root"; FH
-  fileWithCorrelation = "proof_MCdbId_5217_TauPolTest_big_tauPolReweightingOFF_13-03-01_00-40-10.root";
+//  fileWithCorrelation = "proof_MCdbId_5217_TauPolTest_big_tauPolReweightingOFF_13-03-01_00-40-10.root";
 
 //  filenoCorrelation = "ttbar_mcatnlo_NoSC_ref.root"; FH
-  filenoCorrelation = "proof_MCdbId_6134_TauPolTest_tauPolReweightingOFF_13-03-14_02-25-43.root";
+//  filenoCorrelation = "proof_MCdbId_6134_TauPolTest_tauPolReweightingOFF_13-03-14_02-25-43.root";
 
 
-  filenoCorrelation ="proof_backup_outputProof_13-04-18_13-13-57_Mcatnlo6134_TauPolSys_FullSim_completeSample_ReweightingOff.root";
-  fileWithCorrelation ="proof_backup_outputProof_13-04-18_12-26-37_Mcatnlo5217_TauPolSys_FullSim_completeSample_ReweightingOff.root";
+//    filenoCorrelation ="proof_backup_outputProof_13-04-18_13-13-57_Mcatnlo6134_TauPolSys_FullSim_completeSample_ReweightingOff.root";
+//    histnameNoCorrelation = "DeltaPhiLLept";
+//    fileWithCorrelation ="proof_backup_outputProof_13-04-18_12-26-37_Mcatnlo5217_TauPolSys_FullSim_completeSample_ReweightingOff.root";
+    histnameWithCorrelation = "DeltaPhiLLept";
 
 
+   fileWithCorrelation ="proof_backup_outputProof_13-05-19_04-10-30_Mcatnlo5217_TauPolSys_FullSim_completeSample.root";
+   histnameWithCorrelation = "DeltaPhiLLept_topPtReweighted";
 
+   filenoCorrelation ="proof_backup_outputProof_13-05-19_12-19-27_Mcatnlo6134_TauPolSys_FullSim_completeSample.root";
+   histnameNoCorrelation = "DeltaPhiLLept_topPtReweighted";
+//
   //fileWithCorrelation_gen = "ttbar_mcatnlo_SC_ref.root";
   //fileNoCorrelation_gen = "ttbar_mcatnlo_NoSC_ref.root";
   
@@ -316,9 +323,10 @@ void SpinFit::setup()
   if (debug) cout << "Load MC histos with correlation from file "<< name<<endl;
   theFile = new TFile (name) ;
   cout << "Will now retrieve the MC histos with correlation\n";
-
+  // DeltaPhiLLept_topPtReweighted
   for (int itype = 0;itype!=maxType;++itype) {
-    sprintf(hname,"%s_%s_%s_%s", histoName, type[itype],cut, "TTbarSig");
+    //sprintf(hname,"%s_%s_%s_%s", histoName, type[itype],cut, "TTbarSig");
+    sprintf(hname,"%s_%s_%s_%s",histnameWithCorrelation.c_str(), type[itype],cut, "TTbarSig");
     if (debug) cout << hname<<endl;
     TH1F* histo  = (TH1F*) gDirectory->Get(hname) ;
     if (histo==0) {
@@ -423,7 +431,8 @@ void SpinFit::setup()
 // Get the MC templates
   cout << "Will now retrieve the MC histos NO correlation\n";
   for (int itype = 0;itype!=maxType;++itype) {
-    sprintf(hname,"%s_%s_%s_%s", histoName, type[itype],cut, "TTbarSig");
+    //sprintf(hname,"%s_%s_%s_%s", histoName, type[itype],cut, "TTbarSig");
+    sprintf(hname,"%s_%s_%s_%s",histnameNoCorrelation.c_str(),type[itype],cut, "TTbarSig");
     if (debug) cout << hname<<endl;
     TH1F* histo  = (TH1F*) gDirectory->Get(hname) ;
     if (histo==0) {
